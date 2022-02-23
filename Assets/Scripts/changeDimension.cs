@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class changeDimension : MonoBehaviour
 {
-    public GameObject[] tms, enemies, btdr;
+    public GameObject[] tms, enemies, btdr, portals;
     public bool dream = false;
     private GameObject cam;
     public GameObject activeOnA, activeOnB;
@@ -16,6 +16,7 @@ public class changeDimension : MonoBehaviour
         tms = GameObject.FindGameObjectsWithTag("Tilemap");
         cam = GameObject.FindWithTag("MainCamera");
         btdr = GameObject.FindGameObjectsWithTag("BtDr");
+        portals = GameObject.FindGameObjectsWithTag("Teleport");
     }
 
     // Update is called once per frame
@@ -44,15 +45,8 @@ public class changeDimension : MonoBehaviour
             {
                 en.SetActive(false);
             }
-            foreach(GameObject btdrs in btdr)
-            {
-                btdrs.transform.GetChild(0).gameObject.SetActive(true);
-                if(btdrs.transform.GetChild(0).GetComponent<OpenDoor>().triggered == true)
-                {
-                    btdrs.transform.GetChild(1).gameObject.SetActive(false);
-                    btdrs.transform.GetChild(0).GetComponent<OpenDoor>().triggered = false;
-                }
-            }
+            DimTeleport(false);
+            ButtonsAndDoorsActive(true);
 
             dream = true;
         }
@@ -71,17 +65,42 @@ public class changeDimension : MonoBehaviour
             {
                 en.SetActive(true);
             }
-            foreach(GameObject btdrs in btdr)
-            {
-                btdrs.transform.GetChild(0).gameObject.SetActive(false);
-                btdrs.transform.GetChild(0).GetComponent<OpenDoor>().timesPressed = 0;
-                if(btdrs.transform.GetChild(0).GetComponent<OpenDoor>().triggered == true)
-                {
-                    btdrs.transform.GetChild(1).gameObject.SetActive(true);
-                }
-            }
+            DimTeleport(true);
+            ButtonsAndDoorsActive(false);
             
             dream = false;
+        }
+    }
+
+    void ButtonsAndDoorsActive(bool active)
+    {
+        //Button active or not
+        foreach(GameObject btdrs in btdr)
+        {
+            btdrs.transform.GetChild(0).GetComponent<Collider2D>().enabled = active;
+            btdrs.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = active;
+            if(active == false)
+            {
+                btdrs.transform.GetChild(0).GetComponent<OpenDoor>().timesPressed = 0;
+            }
+            if(btdrs.transform.GetChild(0).GetComponent<OpenDoor>().triggered == true)
+            {
+                btdrs.transform.GetChild(1).GetComponent<Collider2D>().enabled = !active;
+                btdrs.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = !active;
+                if(active == true)
+                {
+                    btdrs.transform.GetChild(0).GetComponent<OpenDoor>().triggered = false;
+                }
+            }
+        }
+    }
+
+    void DimTeleport(bool active)
+    {
+        foreach(GameObject portal in portals)
+        {
+            portal.GetComponent<Collider2D>().enabled = active;
+            portal.GetComponent<SpriteRenderer>().enabled = active;
         }
     }
 }

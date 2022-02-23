@@ -11,6 +11,7 @@ TagManager:
   - Door
   - Button
   - BtDr
+  - Teleport
   layers:
   - Default
   - TransparentFX

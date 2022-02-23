@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 2163736692985146558}
   m_Layer: 0
   m_Name: Portal 1
-  m_TagString: Untagged
+  m_TagString: Teleport
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 2163736693276911284}
   m_Layer: 0
   m_Name: Portal 2
-  m_TagString: Untagged
+  m_TagString: Teleport
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
