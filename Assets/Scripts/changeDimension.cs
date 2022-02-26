@@ -25,7 +25,7 @@ public class changeDimension : MonoBehaviour
         if(Input.GetKeyDown("space"))
         {
             ChangeSprite();
-            //cam.transform.position = Vector3.Scale(cam.transform.position, new Vector3(1, 1, -1));
+            //RotateCamera();
         }
     }
 
@@ -102,5 +102,11 @@ public class changeDimension : MonoBehaviour
             portal.GetComponent<Collider2D>().enabled = active;
             portal.GetComponent<SpriteRenderer>().enabled = active;
         }
+    }
+
+    void RotateCamera()
+    {
+        cam.transform.rotation *= Quaternion.Euler(0, 0, 180);
+        gameObject.GetComponent<playerMovement>().moveSpeed *= -1;
     }
 }
